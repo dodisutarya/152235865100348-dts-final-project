@@ -8,6 +8,7 @@ import React from 'react';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './components/containers/Login';
 import Register from './components/containers/Register';
+import Cari from './components/containers/Cari';
 
 const App = () => {
 
@@ -29,6 +30,7 @@ const App = () => {
             />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="cari" element={<Cari />} />
           </Routes>
 
         </BrowserRouter>

@@ -19,7 +19,7 @@ import { signOut } from 'firebase/auth';
 import { Login } from '@mui/icons-material';
 import FoodBankIcon from '@mui/icons-material/FoodBank';
 
-const pages = [''];
+const pages = ['cari'];
 const settings = [{ menu: 'Profile', page: '/profile' }];
 
 const Navbar = () => {
