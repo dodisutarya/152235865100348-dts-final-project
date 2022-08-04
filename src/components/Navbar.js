@@ -12,13 +12,33 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../config/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { signOut } from 'firebase/auth';
+import { Login } from '@mui/icons-material';
+import FoodBankIcon from '@mui/icons-material/FoodBank';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = [''];
+const settings = [{ menu: 'Profile', page: '/profile' }];
 
 const Navbar = () => {
+
+    const navigate = useNavigate();
+    const [user] = useAuthState(auth);
+
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            console.log("berhasil Log Out!");
+        } catch (error) {
+            console.log(error);
+            console.log("gagal Logout!")
+        }
+    };
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -39,7 +59,8 @@ const Navbar = () => {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+
+                    <FoodBankIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
                         variant="h6"
                         noWrap
@@ -117,7 +138,7 @@ const Navbar = () => {
                         {pages.map((page) => (
                             <Button
                                 key={page}
-                                onClick={handleCloseNavMenu}
+                                onClick={() => { handleCloseNavMenu(); navigate(page) }}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page}
@@ -125,7 +146,7 @@ const Navbar = () => {
                         ))}
                     </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    {/* <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -153,7 +174,79 @@ const Navbar = () => {
                                 </MenuItem>
                             ))}
                         </Menu>
+                    </Box> */}
+
+                    <Box sx={{ flexGrow: 0 }}>
+                        {!user ? (
+                            <Button
+                                onClick={() => {
+                                    navigate("/login");
+                                }}
+                                sx={{
+                                    textTransform: "none",
+                                    fontWeight: "500",
+                                }}
+                                endIcon={<Login />}
+                                variant="contained"
+                            >
+                                Login
+                            </Button>
+                        ) : (
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar
+                                        alt="Profile "
+                                        src="https://i.pravatar.cc/150?img=59"
+                                    />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+
+                        <Menu
+                            sx={{ mt: "45px" }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {user && (
+                                <MenuItem>
+                                    <Typography> {user.email}</Typography>
+                                </MenuItem>
+                            )}
+
+                            {settings.map((setting) => (
+                                <MenuItem
+                                    key={setting.menu}
+                                    onClick={() => {
+                                        handleCloseUserMenu();
+                                        navigate(setting.page);
+                                    }}
+                                >
+                                    <Typography textAlign="center">{setting.menu}</Typography>
+                                </MenuItem>
+                            ))}
+
+                            <MenuItem
+                                onClick={() => {
+                                    handleCloseUserMenu();
+                                    handleSignOut();
+                                }}
+                            >
+                                <Typography textAlign="center">Logout</Typography>
+                            </MenuItem>
+                        </Menu>
                     </Box>
+
                 </Toolbar>
             </Container>
         </AppBar>

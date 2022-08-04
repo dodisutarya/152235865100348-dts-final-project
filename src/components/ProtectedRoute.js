@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children }) => {
         return (
             <Box
                 sx={{
-                    backgroundColor: "black",
+                    backgroundColor: "white",
                     minHeight: "100vh",
                     display: "flex",
                     alignItems: "center",
@@ -48,8 +48,8 @@ const ProtectedRoute = ({ children }) => {
                 }}
             >
                 <Stack spacing={2} alignItems="center">
-                    <Typography variant="h4">Kamu sudah keluar dari Aplikasi</Typography>
-                    <Typography variant="body">Silahkan Login Kembali</Typography>
+                    <Typography variant="h4">Untuk melihat detail resep anda perlu Login</Typography>
+                    <Typography variant="body">Silahkan Login disini</Typography>
 
                     <Button
                         size="large"

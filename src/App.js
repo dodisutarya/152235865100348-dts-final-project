@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import DetailResep from './components/containers/DetailResep';
 import React from 'react';
 import ProtectedRoute from './components/ProtectedRoute';
+import Login from './components/containers/Login';
+import Register from './components/containers/Register';
 
 const App = () => {
 
@@ -25,8 +27,8 @@ const App = () => {
                 </>
               }
             />
-            {/* <Route path="signup" element={<SignUp />} />
-            <Route path="login" element={<SignIn />} /> */}
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
           </Routes>
 
         </BrowserRouter>
