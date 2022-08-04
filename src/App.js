@@ -5,6 +5,7 @@ import HomePage from './components/containers/HomePage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import DetailResep from './components/containers/DetailResep';
 import React from 'react';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
 
@@ -18,10 +19,14 @@ const App = () => {
             <Route path="/resep/:resepId"
               element={
                 <>
-                  <DetailResep />
+                  <ProtectedRoute>
+                    <DetailResep />
+                  </ProtectedRoute>
                 </>
               }
             />
+            {/* <Route path="signup" element={<SignUp />} />
+            <Route path="login" element={<SignIn />} /> */}
           </Routes>
 
         </BrowserRouter>
